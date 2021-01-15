@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OPHELIAModelStoreContainer" CdmEntityContainer="OPHELIAEntities">
+    <EntitySetMapping Name="CLIENTE">
+      <EntityTypeMapping TypeName="OPHELIAModel.CLIENTE">
+        <MappingFragment StoreEntitySet="CLIENTE">
+          <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+          <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+          <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCTO">
+      <EntityTypeMapping TypeName="OPHELIAModel.PRODUCTO">
+        <MappingFragment StoreEntitySet="PRODUCTO">
+          <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+          <ScalarProperty Name="ID_PROVEDOR" ColumnName="ID_PROVEDOR" />
+          <ScalarProperty Name="CANIDAD" ColumnName="CANIDAD" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="MARCA" ColumnName="MARCA" />
+          <ScalarProperty Name="MODELO" ColumnName="MODELO" />
+          <ScalarProperty Name="COSTO" ColumnName="COSTO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PROVEEDOR">
+      <EntityTypeMapping TypeName="OPHELIAModel.PROVEEDOR">
+        <MappingFragment StoreEntitySet="PROVEEDOR">
+          <ScalarProperty Name="ID_PROVEEDOR" ColumnName="ID_PROVEEDOR" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+          <ScalarProperty Name="CUENTA_BANCO" ColumnName="CUENTA_BANCO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VENTA">
+      <EntityTypeMapping TypeName="OPHELIAModel.VENTA">
+        <MappingFragment StoreEntitySet="VENTA">
+          <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+          <ScalarProperty Name="FECHA_VENTA" ColumnName="FECHA_VENTA" />
+          <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VENTA_PRODUCTO">
+      <EntityTypeMapping TypeName="OPHELIAModel.VENTA_PRODUCTO">
+        <MappingFragment StoreEntitySet="VENTA_PRODUCTO">
+          <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+          <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+          <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

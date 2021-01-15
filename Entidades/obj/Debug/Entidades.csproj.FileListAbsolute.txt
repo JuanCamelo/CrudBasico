@@ -1,0 +1,6 @@
+C:\Users\JUAN\source\repos\CRUD\Entidades\bin\Debug\Entidades.dll
+C:\Users\JUAN\source\repos\CRUD\Entidades\bin\Debug\Entidades.pdb
+C:\Users\JUAN\source\repos\CRUD\Entidades\obj\Debug\Entidades.csproj.CoreCompileInputs.cache
+C:\Users\JUAN\source\repos\CRUD\Entidades\obj\Debug\Entidades.dll
+C:\Users\JUAN\source\repos\CRUD\Entidades\obj\Debug\Entidades.pdb
+C:\Users\JUAN\source\repos\CRUD\Entidades\obj\Debug\Entidades.csprojAssemblyReference.cache

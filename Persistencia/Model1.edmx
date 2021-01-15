@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OPHELIAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="APELLIDO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FECHA_NACIMIENTO" Type="date" Nullable="false" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TELEFONO" Type="int" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PRODUCTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PROVEDOR" Type="int" Nullable="false" />
+          <Property Name="CANIDAD" Type="int" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="30" />
+          <Property Name="MARCA" Type="varchar" MaxLength="30" />
+          <Property Name="MODELO" Type="varchar" MaxLength="30" />
+          <Property Name="COSTO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROVEEDOR">
+          <Key>
+            <PropertyRef Name="ID_PROVEEDOR" />
+          </Key>
+          <Property Name="ID_PROVEEDOR" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="TELEFONO" Type="int" Nullable="false" />
+          <Property Name="CUENTA_BANCO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VENTA">
+          <Key>
+            <PropertyRef Name="ID_VENTA" />
+          </Key>
+          <Property Name="ID_VENTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FECHA_VENTA" Type="date" Nullable="false" />
+          <Property Name="ID_CLIENTE" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'OPHELIA.dbo.VENTA_PRODUCTO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VENTA_PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_VENTA" />
+            <PropertyRef Name="ID_PRODUCTO" />
+            <PropertyRef Name="CANTIDAD" />
+            <PropertyRef Name="PRECIO" />
+          </Key>
+          <Property Name="ID_VENTA" Type="int" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+          <Property Name="CANTIDAD" Type="int" Nullable="false" />
+          <Property Name="PRECIO" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PRODUCTO_PROVEEDORES">
+          <End Role="PROVEEDOR" Type="Self.PROVEEDOR" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="ID_PROVEEDOR" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_PROVEDOR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_CLIENTES">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="1" />
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_PRODUCTO_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="VENTA_PRODUCTO" Type="Self.VENTA_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="VENTA_PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_PRODUCTO_VENTA">
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="1" />
+          <End Role="VENTA_PRODUCTO" Type="Self.VENTA_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="VENTA_PRODUCTO">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OPHELIAModelStoreContainer">
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROVEEDOR" EntityType="Self.PROVEEDOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENTA" EntityType="Self.VENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VENTA_PRODUCTO" EntityType="Self.VENTA_PRODUCTO" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VENTA_PRODUCTO].[ID_VENTA] AS [ID_VENTA], 
+    [VENTA_PRODUCTO].[ID_PRODUCTO] AS [ID_PRODUCTO], 
+    [VENTA_PRODUCTO].[CANTIDAD] AS [CANTIDAD], 
+    [VENTA_PRODUCTO].[PRECIO] AS [PRECIO]
+    FROM [dbo].[VENTA_PRODUCTO] AS [VENTA_PRODUCTO]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_PRODUCTO_PROVEEDORES" Association="Self.FK_PRODUCTO_PROVEEDORES">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_CLIENTES" Association="Self.FK_VENTA_CLIENTES">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_PRODUCTO_PRODUCTO" Association="Self.FK_VENTA_PRODUCTO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="VENTA_PRODUCTO" EntitySet="VENTA_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_PRODUCTO_VENTA" Association="Self.FK_VENTA_PRODUCTO_VENTA">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="VENTA_PRODUCTO" EntitySet="VENTA_PRODUCTO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OPHELIAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_NACIMIENTO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DIRECCION" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TELEFONO" Type="Int32" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="VENTA" Relationship="Self.FK_VENTA_CLIENTES" FromRole="CLIENTE" ToRole="VENTA" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PROVEDOR" Type="Int32" Nullable="false" />
+          <Property Name="CANIDAD" Type="Int32" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MARCA" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MODELO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="COSTO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PROVEEDOR" Relationship="Self.FK_PRODUCTO_PROVEEDORES" FromRole="PRODUCTO" ToRole="PROVEEDOR" />
+          <NavigationProperty Name="VENTA_PRODUCTO" Relationship="Self.FK_VENTA_PRODUCTO_PRODUCTO" FromRole="PRODUCTO" ToRole="VENTA_PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PROVEEDOR">
+          <Key>
+            <PropertyRef Name="ID_PROVEEDOR" />
+          </Key>
+          <Property Name="ID_PROVEEDOR" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TELEFONO" Type="Int32" Nullable="false" />
+          <Property Name="CUENTA_BANCO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_PRODUCTO_PROVEEDORES" FromRole="PROVEEDOR" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="VENTA">
+          <Key>
+            <PropertyRef Name="ID_VENTA" />
+          </Key>
+          <Property Name="ID_VENTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FECHA_VENTA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ID_CLIENTE" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CLIENTE" Relationship="Self.FK_VENTA_CLIENTES" FromRole="VENTA" ToRole="CLIENTE" />
+          <NavigationProperty Name="VENTA_PRODUCTO" Relationship="Self.FK_VENTA_PRODUCTO_VENTA" FromRole="VENTA" ToRole="VENTA_PRODUCTO" />
+        </EntityType>
+        <EntityType Name="VENTA_PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_VENTA" />
+            <PropertyRef Name="ID_PRODUCTO" />
+            <PropertyRef Name="CANTIDAD" />
+            <PropertyRef Name="PRECIO" />
+          </Key>
+          <Property Name="ID_VENTA" Type="Int32" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+          <Property Name="CANTIDAD" Type="Int32" Nullable="false" />
+          <Property Name="PRECIO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK_VENTA_PRODUCTO_PRODUCTO" FromRole="VENTA_PRODUCTO" ToRole="PRODUCTO" />
+          <NavigationProperty Name="VENTA" Relationship="Self.FK_VENTA_PRODUCTO_VENTA" FromRole="VENTA_PRODUCTO" ToRole="VENTA" />
+        </EntityType>
+        <Association Name="FK_VENTA_CLIENTES">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="1" />
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="VENTA">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTO_PROVEEDORES">
+          <End Role="PROVEEDOR" Type="Self.PROVEEDOR" Multiplicity="1" />
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVEEDOR">
+              <PropertyRef Name="ID_PROVEEDOR" />
+            </Principal>
+            <Dependent Role="PRODUCTO">
+              <PropertyRef Name="ID_PROVEDOR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_PRODUCTO_PRODUCTO">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="VENTA_PRODUCTO" Type="Self.VENTA_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="VENTA_PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VENTA_PRODUCTO_VENTA">
+          <End Role="VENTA" Type="Self.VENTA" Multiplicity="1" />
+          <End Role="VENTA_PRODUCTO" Type="Self.VENTA_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VENTA">
+              <PropertyRef Name="ID_VENTA" />
+            </Principal>
+            <Dependent Role="VENTA_PRODUCTO">
+              <PropertyRef Name="ID_VENTA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OPHELIAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
+          <EntitySet Name="PROVEEDOR" EntityType="Self.PROVEEDOR" />
+          <EntitySet Name="VENTA" EntityType="Self.VENTA" />
+          <EntitySet Name="VENTA_PRODUCTO" EntityType="Self.VENTA_PRODUCTO" />
+          <AssociationSet Name="FK_VENTA_CLIENTES" Association="Self.FK_VENTA_CLIENTES">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="VENTA" EntitySet="VENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTO_PROVEEDORES" Association="Self.FK_PRODUCTO_PROVEEDORES">
+            <End Role="PROVEEDOR" EntitySet="PROVEEDOR" />
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_PRODUCTO_PRODUCTO" Association="Self.FK_VENTA_PRODUCTO_PRODUCTO">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="VENTA_PRODUCTO" EntitySet="VENTA_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VENTA_PRODUCTO_VENTA" Association="Self.FK_VENTA_PRODUCTO_VENTA">
+            <End Role="VENTA" EntitySet="VENTA" />
+            <End Role="VENTA_PRODUCTO" EntitySet="VENTA_PRODUCTO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OPHELIAModelStoreContainer" CdmEntityContainer="OPHELIAEntities">
+          <EntitySetMapping Name="CLIENTE">
+            <EntityTypeMapping TypeName="OPHELIAModel.CLIENTE">
+              <MappingFragment StoreEntitySet="CLIENTE">
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="OPHELIAModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="ID_PROVEDOR" ColumnName="ID_PROVEDOR" />
+                <ScalarProperty Name="CANIDAD" ColumnName="CANIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="MARCA" ColumnName="MARCA" />
+                <ScalarProperty Name="MODELO" ColumnName="MODELO" />
+                <ScalarProperty Name="COSTO" ColumnName="COSTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVEEDOR">
+            <EntityTypeMapping TypeName="OPHELIAModel.PROVEEDOR">
+              <MappingFragment StoreEntitySet="PROVEEDOR">
+                <ScalarProperty Name="ID_PROVEEDOR" ColumnName="ID_PROVEEDOR" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="CUENTA_BANCO" ColumnName="CUENTA_BANCO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENTA">
+            <EntityTypeMapping TypeName="OPHELIAModel.VENTA">
+              <MappingFragment StoreEntitySet="VENTA">
+                <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+                <ScalarProperty Name="FECHA_VENTA" ColumnName="FECHA_VENTA" />
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VENTA_PRODUCTO">
+            <EntityTypeMapping TypeName="OPHELIAModel.VENTA_PRODUCTO">
+              <MappingFragment StoreEntitySet="VENTA_PRODUCTO">
+                <ScalarProperty Name="ID_VENTA" ColumnName="ID_VENTA" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
